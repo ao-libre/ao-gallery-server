@@ -87,18 +87,11 @@ async function users(parent, args, context) {
 async function user(parent, args, context) {
 
 
-  const user = await context.prisma.users({
-    where: {
-      id_contains: args.id
-    },
-    first: args.first,
-    orderBy: args.orderBy,
-  });
+  const user = await context.prisma.user({
+    id: args.id
+  })
 
-  return {
-    user,
-  }
-
+  return user
 }
 
 

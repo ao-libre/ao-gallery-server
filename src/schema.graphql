@@ -3,10 +3,14 @@ scalar DateTime
 type Query {
   info: String!
   feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
-  users(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): [User]!
-  user(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): User!
+  users(
+    filter: String
+    skip: Int
+    first: Int
+    orderBy: LinkOrderByInput
+  ): [User]!
+  user(id: ID!): User!
   feed2(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
-
 }
 
 enum LinkOrderByInput {
