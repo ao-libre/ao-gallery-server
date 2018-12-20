@@ -6,3 +6,4 @@ secret: mysecret123
 hooks:
   post-deploy:
     - prisma generate
+endpoint: https://us1.prisma.sh/lucas-3856c0/ao-gallery/dev

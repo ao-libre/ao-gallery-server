@@ -3,6 +3,10 @@ scalar DateTime
 type Query {
   info: String!
   feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
+  users(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): [User]!
+  user(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): User!
+  feed2(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
+
 }
 
 enum LinkOrderByInput {
@@ -41,6 +45,10 @@ type User {
   name: String!
   email: String!
   links: [Link!]!
+}
+
+type Users {
+  users: [User!]!
 }
 
 type Link {
