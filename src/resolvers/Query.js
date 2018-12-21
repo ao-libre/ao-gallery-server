@@ -70,7 +70,7 @@ async function users(parent, args, context) {
   const users = await context.prisma.users({
     where: {
       OR: [
-        { name_contains: args.filter },
+        { name_contains: args.name },
       ],
     },
     skip: args.skip,
@@ -78,14 +78,11 @@ async function users(parent, args, context) {
     orderBy: args.orderBy,
   });
 
-  return {
-    users,
-  }
+  return users
 
 }
 
 async function user(parent, args, context) {
-
 
   const user = await context.prisma.user({
     id: args.id

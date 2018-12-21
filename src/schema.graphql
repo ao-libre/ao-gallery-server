@@ -3,13 +3,18 @@ scalar DateTime
 type Query {
   info: String!
   feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
+  
   users(
-    filter: String
+    name: String
     skip: Int
     first: Int
     orderBy: LinkOrderByInput
-  ): [User]!
-  user(id: ID!): User!
+  ): [User!]!
+
+  user(
+    id: ID!
+  ): User!
+
   feed2(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
 }
 
@@ -20,6 +25,8 @@ enum LinkOrderByInput {
   url_DESC
   createdAt_ASC
   createdAt_DESC
+  name_ASC
+  name_DESC
 }
 
 type Feed {
@@ -49,6 +56,7 @@ type User {
   name: String!
   email: String!
   links: [Link!]!
+  images: [Image!]!
 }
 
 type Users {
@@ -62,6 +70,20 @@ type Link {
   url: String!
   postedBy: User
   votes: [Vote!]!
+}
+
+type Image {
+  id: ID!
+  createdAt: DateTime!
+  description: String!
+  postedBy: User
+  votes: [VoteImage!]!
+}
+
+type VoteImage {
+  id: ID!
+  image: Image!
+  user: User!
 }
 
 type Vote {

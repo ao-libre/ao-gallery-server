@@ -86,62 +86,6 @@ type LinkPreviousValues {
   url: String!
 }
 
-input LinkScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  description: String
-  description_not: String
-  description_in: [String!]
-  description_not_in: [String!]
-  description_lt: String
-  description_lte: String
-  description_gt: String
-  description_gte: String
-  description_contains: String
-  description_not_contains: String
-  description_starts_with: String
-  description_not_starts_with: String
-  description_ends_with: String
-  description_not_ends_with: String
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
-  AND: [LinkScalarWhereInput!]
-  OR: [LinkScalarWhereInput!]
-  NOT: [LinkScalarWhereInput!]
-}
-
 type LinkSubscriptionPayload {
   mutation: MutationType!
   node: Link
@@ -167,16 +111,6 @@ input LinkUpdateInput {
   votes: VoteUpdateManyWithoutLinkInput
 }
 
-input LinkUpdateManyDataInput {
-  description: String
-  url: String
-}
-
-input LinkUpdateManyMutationInput {
-  description: String
-  url: String
-}
-
 input LinkUpdateManyWithoutPostedByInput {
   create: [LinkCreateWithoutPostedByInput!]
   delete: [LinkWhereUniqueInput!]
@@ -184,13 +118,6 @@ input LinkUpdateManyWithoutPostedByInput {
   disconnect: [LinkWhereUniqueInput!]
   update: [LinkUpdateWithWhereUniqueWithoutPostedByInput!]
   upsert: [LinkUpsertWithWhereUniqueWithoutPostedByInput!]
-  deleteMany: [LinkScalarWhereInput!]
-  updateMany: [LinkUpdateManyWithWhereNestedInput!]
-}
-
-input LinkUpdateManyWithWhereNestedInput {
-  where: LinkScalarWhereInput!
-  data: LinkUpdateManyDataInput!
 }
 
 input LinkUpdateOneRequiredWithoutVotesInput {
@@ -297,18 +224,19 @@ scalar Long
 type Mutation {
   createLink(data: LinkCreateInput!): Link!
   updateLink(data: LinkUpdateInput!, where: LinkWhereUniqueInput!): Link
-  updateManyLinks(data: LinkUpdateManyMutationInput!, where: LinkWhereInput): BatchPayload!
+  updateManyLinks(data: LinkUpdateInput!, where: LinkWhereInput): BatchPayload!
   upsertLink(where: LinkWhereUniqueInput!, create: LinkCreateInput!, update: LinkUpdateInput!): Link!
   deleteLink(where: LinkWhereUniqueInput!): Link
   deleteManyLinks(where: LinkWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   createVote(data: VoteCreateInput!): Vote!
   updateVote(data: VoteUpdateInput!, where: VoteWhereUniqueInput!): Vote
+  updateManyVotes(data: VoteUpdateInput!, where: VoteWhereInput): BatchPayload!
   upsertVote(where: VoteWhereUniqueInput!, create: VoteCreateInput!, update: VoteUpdateInput!): Vote!
   deleteVote(where: VoteWhereUniqueInput!): Vote
   deleteManyVotes(where: VoteWhereInput): BatchPayload!
@@ -448,12 +376,6 @@ input UserUpdateInput {
   password: String
   links: LinkUpdateManyWithoutPostedByInput
   votes: VoteUpdateManyWithoutUserInput
-}
-
-input UserUpdateManyMutationInput {
-  name: String
-  email: String
-  password: String
 }
 
 input UserUpdateOneRequiredWithoutVotesInput {
@@ -622,26 +544,6 @@ type VotePreviousValues {
   id: ID!
 }
 
-input VoteScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  AND: [VoteScalarWhereInput!]
-  OR: [VoteScalarWhereInput!]
-  NOT: [VoteScalarWhereInput!]
-}
-
 type VoteSubscriptionPayload {
   mutation: MutationType!
   node: Vote
@@ -672,7 +574,6 @@ input VoteUpdateManyWithoutLinkInput {
   disconnect: [VoteWhereUniqueInput!]
   update: [VoteUpdateWithWhereUniqueWithoutLinkInput!]
   upsert: [VoteUpsertWithWhereUniqueWithoutLinkInput!]
-  deleteMany: [VoteScalarWhereInput!]
 }
 
 input VoteUpdateManyWithoutUserInput {
@@ -682,7 +583,6 @@ input VoteUpdateManyWithoutUserInput {
   disconnect: [VoteWhereUniqueInput!]
   update: [VoteUpdateWithWhereUniqueWithoutUserInput!]
   upsert: [VoteUpsertWithWhereUniqueWithoutUserInput!]
-  deleteMany: [VoteScalarWhereInput!]
 }
 
 input VoteUpdateWithoutLinkDataInput {
