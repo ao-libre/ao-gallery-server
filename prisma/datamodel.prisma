@@ -21,3 +21,14 @@ type Vote {
   link: Link!
   user: User!
 }
+
+type Image {
+  id: ID!
+  name: String
+  createdAt: DateTime!
+  description: String!
+  postedBy: User
+  origin: String
+  # votes: [VoteImage!]!
+  #  indexingData: IndexingData!
+}
