@@ -11,6 +11,16 @@ function post(parent, args, context) {
   })
 }
 
+function uploadImage(parent, args, context) {
+  const userId = getUserId(context)
+  return context.prisma.createImage({
+    name: args.name,
+    description: args.description,
+    origin: args.origin,
+    postedBy: { connect: { id: userId } },
+  })
+}
+
 async function signup(parent, args, context) {
   const password = await bcrypt.hash(args.password, 10)
   const user = await context.prisma.createUser({ ...args, password })
@@ -61,4 +71,5 @@ module.exports = {
   signup,
   login,
   vote,
+  uploadImage,
 }
