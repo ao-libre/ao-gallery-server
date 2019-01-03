@@ -15,6 +15,10 @@ type AggregateVote {
   count: Int!
 }
 
+type AggregateVoteImage {
+  count: Int!
+}
+
 type BatchPayload {
   count: Long!
 }
@@ -23,11 +27,13 @@ scalar DateTime
 
 type Image {
   id: ID!
-  name: String
+  name: String!
   createdAt: DateTime!
   description: String!
-  postedBy: User
+  uploadedBy: User
   origin: String
+  votes(where: VoteImageWhereInput, orderBy: VoteImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [VoteImage!]
+  url: String
 }
 
 type ImageConnection {
@@ -37,10 +43,25 @@ type ImageConnection {
 }
 
 input ImageCreateInput {
-  name: String
+  name: String!
   description: String!
-  postedBy: UserCreateOneInput
+  uploadedBy: UserCreateOneInput
   origin: String
+  votes: VoteImageCreateManyWithoutImageInput
+  url: String
+}
+
+input ImageCreateOneWithoutVotesInput {
+  create: ImageCreateWithoutVotesInput
+  connect: ImageWhereUniqueInput
+}
+
+input ImageCreateWithoutVotesInput {
+  name: String!
+  description: String!
+  uploadedBy: UserCreateOneInput
+  origin: String
+  url: String
 }
 
 type ImageEdge {
@@ -59,16 +80,19 @@ enum ImageOrderByInput {
   description_DESC
   origin_ASC
   origin_DESC
+  url_ASC
+  url_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
 
 type ImagePreviousValues {
   id: ID!
-  name: String
+  name: String!
   createdAt: DateTime!
   description: String!
   origin: String
+  url: String
 }
 
 type ImageSubscriptionPayload {
@@ -92,14 +116,37 @@ input ImageSubscriptionWhereInput {
 input ImageUpdateInput {
   name: String
   description: String
-  postedBy: UserUpdateOneInput
+  uploadedBy: UserUpdateOneInput
   origin: String
+  votes: VoteImageUpdateManyWithoutImageInput
+  url: String
 }
 
 input ImageUpdateManyMutationInput {
   name: String
   description: String
   origin: String
+  url: String
+}
+
+input ImageUpdateOneRequiredWithoutVotesInput {
+  create: ImageCreateWithoutVotesInput
+  update: ImageUpdateWithoutVotesDataInput
+  upsert: ImageUpsertWithoutVotesInput
+  connect: ImageWhereUniqueInput
+}
+
+input ImageUpdateWithoutVotesDataInput {
+  name: String
+  description: String
+  uploadedBy: UserUpdateOneInput
+  origin: String
+  url: String
+}
+
+input ImageUpsertWithoutVotesInput {
+  update: ImageUpdateWithoutVotesDataInput!
+  create: ImageCreateWithoutVotesInput!
 }
 
 input ImageWhereInput {
@@ -153,7 +200,7 @@ input ImageWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
-  postedBy: UserWhereInput
+  uploadedBy: UserWhereInput
   origin: String
   origin_not: String
   origin_in: [String!]
@@ -168,6 +215,23 @@ input ImageWhereInput {
   origin_not_starts_with: String
   origin_ends_with: String
   origin_not_ends_with: String
+  votes_every: VoteImageWhereInput
+  votes_some: VoteImageWhereInput
+  votes_none: VoteImageWhereInput
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
   AND: [ImageWhereInput!]
   OR: [ImageWhereInput!]
   NOT: [ImageWhereInput!]
@@ -478,6 +542,11 @@ type Mutation {
   upsertVote(where: VoteWhereUniqueInput!, create: VoteCreateInput!, update: VoteUpdateInput!): Vote!
   deleteVote(where: VoteWhereUniqueInput!): Vote
   deleteManyVotes(where: VoteWhereInput): BatchPayload!
+  createVoteImage(data: VoteImageCreateInput!): VoteImage!
+  updateVoteImage(data: VoteImageUpdateInput!, where: VoteImageWhereUniqueInput!): VoteImage
+  upsertVoteImage(where: VoteImageWhereUniqueInput!, create: VoteImageCreateInput!, update: VoteImageUpdateInput!): VoteImage!
+  deleteVoteImage(where: VoteImageWhereUniqueInput!): VoteImage
+  deleteManyVoteImages(where: VoteImageWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -510,6 +579,9 @@ type Query {
   vote(where: VoteWhereUniqueInput!): Vote
   votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote]!
   votesConnection(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VoteConnection!
+  voteImage(where: VoteImageWhereUniqueInput!): VoteImage
+  voteImages(where: VoteImageWhereInput, orderBy: VoteImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [VoteImage]!
+  voteImagesConnection(where: VoteImageWhereInput, orderBy: VoteImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VoteImageConnection!
   node(id: ID!): Node
 }
 
@@ -518,6 +590,7 @@ type Subscription {
   link(where: LinkSubscriptionWhereInput): LinkSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   vote(where: VoteSubscriptionWhereInput): VoteSubscriptionPayload
+  voteImage(where: VoteImageSubscriptionWhereInput): VoteImageSubscriptionPayload
 }
 
 type User {
@@ -645,6 +718,13 @@ input UserUpdateOneInput {
   upsert: UserUpsertNestedInput
   delete: Boolean
   disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
   connect: UserWhereUniqueInput
 }
 
@@ -804,6 +884,144 @@ input VoteCreateWithoutUserInput {
 type VoteEdge {
   node: Vote!
   cursor: String!
+}
+
+type VoteImage {
+  id: ID!
+  image: Image!
+  user: User!
+}
+
+type VoteImageConnection {
+  pageInfo: PageInfo!
+  edges: [VoteImageEdge]!
+  aggregate: AggregateVoteImage!
+}
+
+input VoteImageCreateInput {
+  image: ImageCreateOneWithoutVotesInput!
+  user: UserCreateOneInput!
+}
+
+input VoteImageCreateManyWithoutImageInput {
+  create: [VoteImageCreateWithoutImageInput!]
+  connect: [VoteImageWhereUniqueInput!]
+}
+
+input VoteImageCreateWithoutImageInput {
+  user: UserCreateOneInput!
+}
+
+type VoteImageEdge {
+  node: VoteImage!
+  cursor: String!
+}
+
+enum VoteImageOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type VoteImagePreviousValues {
+  id: ID!
+}
+
+input VoteImageScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  AND: [VoteImageScalarWhereInput!]
+  OR: [VoteImageScalarWhereInput!]
+  NOT: [VoteImageScalarWhereInput!]
+}
+
+type VoteImageSubscriptionPayload {
+  mutation: MutationType!
+  node: VoteImage
+  updatedFields: [String!]
+  previousValues: VoteImagePreviousValues
+}
+
+input VoteImageSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: VoteImageWhereInput
+  AND: [VoteImageSubscriptionWhereInput!]
+  OR: [VoteImageSubscriptionWhereInput!]
+  NOT: [VoteImageSubscriptionWhereInput!]
+}
+
+input VoteImageUpdateInput {
+  image: ImageUpdateOneRequiredWithoutVotesInput
+  user: UserUpdateOneRequiredInput
+}
+
+input VoteImageUpdateManyWithoutImageInput {
+  create: [VoteImageCreateWithoutImageInput!]
+  delete: [VoteImageWhereUniqueInput!]
+  connect: [VoteImageWhereUniqueInput!]
+  disconnect: [VoteImageWhereUniqueInput!]
+  update: [VoteImageUpdateWithWhereUniqueWithoutImageInput!]
+  upsert: [VoteImageUpsertWithWhereUniqueWithoutImageInput!]
+  deleteMany: [VoteImageScalarWhereInput!]
+}
+
+input VoteImageUpdateWithoutImageDataInput {
+  user: UserUpdateOneRequiredInput
+}
+
+input VoteImageUpdateWithWhereUniqueWithoutImageInput {
+  where: VoteImageWhereUniqueInput!
+  data: VoteImageUpdateWithoutImageDataInput!
+}
+
+input VoteImageUpsertWithWhereUniqueWithoutImageInput {
+  where: VoteImageWhereUniqueInput!
+  update: VoteImageUpdateWithoutImageDataInput!
+  create: VoteImageCreateWithoutImageInput!
+}
+
+input VoteImageWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  image: ImageWhereInput
+  user: UserWhereInput
+  AND: [VoteImageWhereInput!]
+  OR: [VoteImageWhereInput!]
+  NOT: [VoteImageWhereInput!]
+}
+
+input VoteImageWhereUniqueInput {
+  id: ID
 }
 
 enum VoteOrderByInput {

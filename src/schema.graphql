@@ -1,21 +1,32 @@
 scalar DateTime
 
 type Query {
-  info: String!
-  feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
+    info: String!
+
+    feed(
+        filter: String,
+        skip: Int,
+        first: Int,
+        orderBy: LinkOrderByInput
+    ): Feed!
   
-  users(
-    name: String
-    skip: Int
-    first: Int
-    orderBy: LinkOrderByInput
-  ): [User!]!
+    users(
+        name: String
+        skip: Int
+        first: Int
+        orderBy: LinkOrderByInput
+    ): [User!]!
 
-  user(
-    id: ID!
-  ): User!
+    user(
+        id: ID!
+    ): User!
 
-  feed2(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
+    imageList(
+        filter: String,
+        skip: Int,
+        first: Int,
+        orderBy: ImageOrderByInput
+    ): ImageList!
 }
 
 enum LinkOrderByInput {
@@ -27,6 +38,19 @@ enum LinkOrderByInput {
   createdAt_DESC
   name_ASC
   name_DESC
+}
+
+enum ImageOrderByInput {
+    description_ASC
+    description_DESC
+    url_ASC
+    url_DESC
+    uploadedBy_ASC
+    uploadedBy_DESC
+    name_ASC
+    name_DESC
+    createdAt_ASC
+    createdAt_DESC
 }
 
 #// #########TIPOS  DE OBJETOS (ObjType)##########
@@ -87,7 +111,7 @@ type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
   vote(linkId: ID!): Vote!
-  uploadImage(origin: String, description: String!, name: String!): Image!
+  uploadImage(origin: String, description: String!, name: String!, url: String!): Image!
 }
 
 type Subscription {
@@ -123,54 +147,60 @@ type Link {
 
 type Image {
   id: ID!
-  name: String
+  name: String!
   createdAt: DateTime!
   description: String!
-  postedBy: User
+  uploadedBy: User
   origin: String
   votes: [VoteImage!]!
+  url: String
 #  indexingData: IndexingData!
 }
 
-type IndexingData {
-    name: String,
-    #    objType: objTypes,
-    #    TipoPocion: potionType,
-    razaEnanaAnim: Int,
-    NumRopaje: Int,
-    anim: Int,
-    agarrable: Boolean,
-    maxDef: String,
-    minDef: String,
-    minHit: String,
-    maxHit: String,
-    staffPower: String,
-    staffDamageBonus: String,
-    valor: Int,
-    crucial: Boolean,
-    cp1: String,
-    cp2: String,
-    cp3: String,
-    cp4: String,
-    cp5: String,
-    cp6: String,
-    cp7: String,
-    lingH: Int,
-    lingP: Int,
-    lingO: Int,
-    skHerreria: Int,
-    upgrade: Int
-    abierta: Boolean,
-    llave: Boolean,
-    indexAbierta: Int,
-    indexCerrada: Int,
-    indexCerradaLlave: Int,
-    cantItems: Int,
-    nroItems: Int,
-    texto: String,
-    Radio: Int,
-    VGrande: Int,
+type ImageList {
+  images: [Image!]!
+  count: Int!
 }
+
+#type IndexingData {
+#    name: String,
+#    #    objType: objTypes,
+#    #    TipoPocion: potionType,
+#    razaEnanaAnim: Int,
+#    NumRopaje: Int,
+#    anim: Int,
+#    agarrable: Boolean,
+#    maxDef: String,
+#    minDef: String,
+#    minHit: String,
+#    maxHit: String,
+#    staffPower: String,
+#    staffDamageBonus: String,
+#    valor: Int,
+#    crucial: Boolean,
+#    cp1: String,
+#    cp2: String,
+#    cp3: String,
+#    cp4: String,
+#    cp5: String,
+#    cp6: String,
+#    cp7: String,
+#    lingH: Int,
+#    lingP: Int,
+#    lingO: Int,
+#    skHerreria: Int,
+#    upgrade: Int
+#    abierta: Boolean,
+#    llave: Boolean,
+#    indexAbierta: Int,
+#    indexCerrada: Int,
+#    indexCerradaLlave: Int,
+#    cantItems: Int,
+#    nroItems: Int,
+#    texto: String,
+#    Radio: Int,
+#    VGrande: Int,
+#}
 
 type VoteImage {
   id: ID!

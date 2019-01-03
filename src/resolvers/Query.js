@@ -31,14 +31,15 @@ async function feed(parent, args, context) {
   }
 }
 
-async function feed2(parent, args, context) {
+async function imageList(parent, args, context) {
 
   const count = await context.prisma
-      .linksConnection({
+      .imagesConnection({
         where: {
           OR: [
+            { name_contains: args.filter },
             { description_contains: args.filter },
-            { url_contains: args.filter },
+            { origin_contains: args.filter },
           ],
         },
         skip: args.skip,
@@ -46,11 +47,12 @@ async function feed2(parent, args, context) {
       .aggregate()
       .count();
 
-  const links = await context.prisma.links({
+  const images = await context.prisma.images({
     where: {
       OR: [
+        { name_contains: args.filter },
         { description_contains: args.filter },
-        { url_contains: args.filter },
+        { origin_contains: args.filter },
       ],
     },
     skip: args.skip,
@@ -60,7 +62,7 @@ async function feed2(parent, args, context) {
 
   return {
     count,
-    links,
+    images,
   }
 }
 
@@ -86,7 +88,7 @@ async function user(parent, args, context) {
 
   const user = await context.prisma.user({
     id: args.id
-  })
+  });
 
   return user
 }
@@ -94,7 +96,7 @@ async function user(parent, args, context) {
 
 module.exports = {
   feed,
-  feed2,
+  imageList,
   users,
   user,
 }

@@ -18,6 +18,7 @@ export interface Exists {
   link: (where?: LinkWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
   vote: (where?: VoteWhereInput) => Promise<boolean>;
+  voteImage: (where?: VoteImageWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -131,6 +132,29 @@ export interface Prisma {
       last?: Int;
     }
   ) => VoteConnectionPromise;
+  voteImage: (where: VoteImageWhereUniqueInput) => VoteImagePromise;
+  voteImages: (
+    args?: {
+      where?: VoteImageWhereInput;
+      orderBy?: VoteImageOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<VoteImage>;
+  voteImagesConnection: (
+    args?: {
+      where?: VoteImageWhereInput;
+      orderBy?: VoteImageOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => VoteImageConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -198,6 +222,19 @@ export interface Prisma {
   ) => VotePromise;
   deleteVote: (where: VoteWhereUniqueInput) => VotePromise;
   deleteManyVotes: (where?: VoteWhereInput) => BatchPayloadPromise;
+  createVoteImage: (data: VoteImageCreateInput) => VoteImagePromise;
+  updateVoteImage: (
+    args: { data: VoteImageUpdateInput; where: VoteImageWhereUniqueInput }
+  ) => VoteImagePromise;
+  upsertVoteImage: (
+    args: {
+      where: VoteImageWhereUniqueInput;
+      create: VoteImageCreateInput;
+      update: VoteImageUpdateInput;
+    }
+  ) => VoteImagePromise;
+  deleteVoteImage: (where: VoteImageWhereUniqueInput) => VoteImagePromise;
+  deleteManyVoteImages: (where?: VoteImageWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -219,6 +256,9 @@ export interface Subscription {
   vote: (
     where?: VoteSubscriptionWhereInput
   ) => VoteSubscriptionPayloadSubscription;
+  voteImage: (
+    where?: VoteImageSubscriptionWhereInput
+  ) => VoteImageSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -249,6 +289,14 @@ export type VoteOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type VoteImageOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type ImageOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -260,6 +308,8 @@ export type ImageOrderByInput =
   | "description_DESC"
   | "origin_ASC"
   | "origin_DESC"
+  | "url_ASC"
+  | "url_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
@@ -433,6 +483,28 @@ export interface VoteWhereInput {
   NOT?: VoteWhereInput[] | VoteWhereInput;
 }
 
+export interface VoteImageWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  image?: ImageWhereInput;
+  user?: UserWhereInput;
+  AND?: VoteImageWhereInput[] | VoteImageWhereInput;
+  OR?: VoteImageWhereInput[] | VoteImageWhereInput;
+  NOT?: VoteImageWhereInput[] | VoteImageWhereInput;
+}
+
 export interface ImageWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
@@ -484,7 +556,7 @@ export interface ImageWhereInput {
   description_not_starts_with?: String;
   description_ends_with?: String;
   description_not_ends_with?: String;
-  postedBy?: UserWhereInput;
+  uploadedBy?: UserWhereInput;
   origin?: String;
   origin_not?: String;
   origin_in?: String[] | String;
@@ -499,6 +571,23 @@ export interface ImageWhereInput {
   origin_not_starts_with?: String;
   origin_ends_with?: String;
   origin_not_ends_with?: String;
+  votes_every?: VoteImageWhereInput;
+  votes_some?: VoteImageWhereInput;
+  votes_none?: VoteImageWhereInput;
+  url?: String;
+  url_not?: String;
+  url_in?: String[] | String;
+  url_not_in?: String[] | String;
+  url_lt?: String;
+  url_lte?: String;
+  url_gt?: String;
+  url_gte?: String;
+  url_contains?: String;
+  url_not_contains?: String;
+  url_starts_with?: String;
+  url_not_starts_with?: String;
+  url_ends_with?: String;
+  url_not_ends_with?: String;
   AND?: ImageWhereInput[] | ImageWhereInput;
   OR?: ImageWhereInput[] | ImageWhereInput;
   NOT?: ImageWhereInput[] | ImageWhereInput;
@@ -517,11 +606,17 @@ export type VoteWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
+export type VoteImageWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
 export interface ImageCreateInput {
-  name?: String;
+  name: String;
   description: String;
-  postedBy?: UserCreateOneInput;
+  uploadedBy?: UserCreateOneInput;
   origin?: String;
+  votes?: VoteImageCreateManyWithoutImageInput;
+  url?: String;
 }
 
 export interface UserCreateOneInput {
@@ -601,11 +696,24 @@ export interface UserCreateWithoutLinksInput {
   votes?: VoteCreateManyWithoutUserInput;
 }
 
+export interface VoteImageCreateManyWithoutImageInput {
+  create?:
+    | VoteImageCreateWithoutImageInput[]
+    | VoteImageCreateWithoutImageInput;
+  connect?: VoteImageWhereUniqueInput[] | VoteImageWhereUniqueInput;
+}
+
+export interface VoteImageCreateWithoutImageInput {
+  user: UserCreateOneInput;
+}
+
 export interface ImageUpdateInput {
   name?: String;
   description?: String;
-  postedBy?: UserUpdateOneInput;
+  uploadedBy?: UserUpdateOneInput;
   origin?: String;
+  votes?: VoteImageUpdateManyWithoutImageInput;
+  url?: String;
 }
 
 export interface UserUpdateOneInput {
@@ -866,10 +974,69 @@ export interface UserUpsertNestedInput {
   create: UserCreateInput;
 }
 
+export interface VoteImageUpdateManyWithoutImageInput {
+  create?:
+    | VoteImageCreateWithoutImageInput[]
+    | VoteImageCreateWithoutImageInput;
+  delete?: VoteImageWhereUniqueInput[] | VoteImageWhereUniqueInput;
+  connect?: VoteImageWhereUniqueInput[] | VoteImageWhereUniqueInput;
+  disconnect?: VoteImageWhereUniqueInput[] | VoteImageWhereUniqueInput;
+  update?:
+    | VoteImageUpdateWithWhereUniqueWithoutImageInput[]
+    | VoteImageUpdateWithWhereUniqueWithoutImageInput;
+  upsert?:
+    | VoteImageUpsertWithWhereUniqueWithoutImageInput[]
+    | VoteImageUpsertWithWhereUniqueWithoutImageInput;
+  deleteMany?: VoteImageScalarWhereInput[] | VoteImageScalarWhereInput;
+}
+
+export interface VoteImageUpdateWithWhereUniqueWithoutImageInput {
+  where: VoteImageWhereUniqueInput;
+  data: VoteImageUpdateWithoutImageDataInput;
+}
+
+export interface VoteImageUpdateWithoutImageDataInput {
+  user?: UserUpdateOneRequiredInput;
+}
+
+export interface UserUpdateOneRequiredInput {
+  create?: UserCreateInput;
+  update?: UserUpdateDataInput;
+  upsert?: UserUpsertNestedInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface VoteImageUpsertWithWhereUniqueWithoutImageInput {
+  where: VoteImageWhereUniqueInput;
+  update: VoteImageUpdateWithoutImageDataInput;
+  create: VoteImageCreateWithoutImageInput;
+}
+
+export interface VoteImageScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  AND?: VoteImageScalarWhereInput[] | VoteImageScalarWhereInput;
+  OR?: VoteImageScalarWhereInput[] | VoteImageScalarWhereInput;
+  NOT?: VoteImageScalarWhereInput[] | VoteImageScalarWhereInput;
+}
+
 export interface ImageUpdateManyMutationInput {
   name?: String;
   description?: String;
   origin?: String;
+  url?: String;
 }
 
 export interface LinkCreateInput {
@@ -913,6 +1080,49 @@ export interface VoteCreateInput {
 export interface VoteUpdateInput {
   link?: LinkUpdateOneRequiredWithoutVotesInput;
   user?: UserUpdateOneRequiredWithoutVotesInput;
+}
+
+export interface VoteImageCreateInput {
+  image: ImageCreateOneWithoutVotesInput;
+  user: UserCreateOneInput;
+}
+
+export interface ImageCreateOneWithoutVotesInput {
+  create?: ImageCreateWithoutVotesInput;
+  connect?: ImageWhereUniqueInput;
+}
+
+export interface ImageCreateWithoutVotesInput {
+  name: String;
+  description: String;
+  uploadedBy?: UserCreateOneInput;
+  origin?: String;
+  url?: String;
+}
+
+export interface VoteImageUpdateInput {
+  image?: ImageUpdateOneRequiredWithoutVotesInput;
+  user?: UserUpdateOneRequiredInput;
+}
+
+export interface ImageUpdateOneRequiredWithoutVotesInput {
+  create?: ImageCreateWithoutVotesInput;
+  update?: ImageUpdateWithoutVotesDataInput;
+  upsert?: ImageUpsertWithoutVotesInput;
+  connect?: ImageWhereUniqueInput;
+}
+
+export interface ImageUpdateWithoutVotesDataInput {
+  name?: String;
+  description?: String;
+  uploadedBy?: UserUpdateOneInput;
+  origin?: String;
+  url?: String;
+}
+
+export interface ImageUpsertWithoutVotesInput {
+  update: ImageUpdateWithoutVotesDataInput;
+  create: ImageCreateWithoutVotesInput;
 }
 
 export interface ImageSubscriptionWhereInput {
@@ -959,16 +1169,28 @@ export interface VoteSubscriptionWhereInput {
   NOT?: VoteSubscriptionWhereInput[] | VoteSubscriptionWhereInput;
 }
 
+export interface VoteImageSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: VoteImageWhereInput;
+  AND?: VoteImageSubscriptionWhereInput[] | VoteImageSubscriptionWhereInput;
+  OR?: VoteImageSubscriptionWhereInput[] | VoteImageSubscriptionWhereInput;
+  NOT?: VoteImageSubscriptionWhereInput[] | VoteImageSubscriptionWhereInput;
+}
+
 export interface NodeNode {
   id: ID_Output;
 }
 
 export interface Image {
   id: ID_Output;
-  name?: String;
+  name: String;
   createdAt: DateTimeOutput;
   description: String;
   origin?: String;
+  url?: String;
 }
 
 export interface ImagePromise extends Promise<Image>, Fragmentable {
@@ -976,8 +1198,20 @@ export interface ImagePromise extends Promise<Image>, Fragmentable {
   name: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   description: () => Promise<String>;
-  postedBy: <T = UserPromise>() => T;
+  uploadedBy: <T = UserPromise>() => T;
   origin: () => Promise<String>;
+  votes: <T = FragmentableArray<VoteImage>>(
+    args?: {
+      where?: VoteImageWhereInput;
+      orderBy?: VoteImageOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  url: () => Promise<String>;
 }
 
 export interface ImageSubscription
@@ -987,8 +1221,20 @@ export interface ImageSubscription
   name: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   description: () => Promise<AsyncIterator<String>>;
-  postedBy: <T = UserSubscription>() => T;
+  uploadedBy: <T = UserSubscription>() => T;
   origin: () => Promise<AsyncIterator<String>>;
+  votes: <T = Promise<AsyncIterator<VoteImageSubscription>>>(
+    args?: {
+      where?: VoteImageWhereInput;
+      orderBy?: VoteImageOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  url: () => Promise<AsyncIterator<String>>;
 }
 
 export interface User {
@@ -1120,6 +1366,24 @@ export interface VoteSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   link: <T = LinkSubscription>() => T;
+  user: <T = UserSubscription>() => T;
+}
+
+export interface VoteImage {
+  id: ID_Output;
+}
+
+export interface VoteImagePromise extends Promise<VoteImage>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  image: <T = ImagePromise>() => T;
+  user: <T = UserPromise>() => T;
+}
+
+export interface VoteImageSubscription
+  extends Promise<AsyncIterator<VoteImage>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  image: <T = ImageSubscription>() => T;
   user: <T = UserSubscription>() => T;
 }
 
@@ -1362,6 +1626,62 @@ export interface AggregateVoteSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface VoteImageConnection {
+  pageInfo: PageInfo;
+  edges: VoteImageEdge[];
+}
+
+export interface VoteImageConnectionPromise
+  extends Promise<VoteImageConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<VoteImageEdge>>() => T;
+  aggregate: <T = AggregateVoteImagePromise>() => T;
+}
+
+export interface VoteImageConnectionSubscription
+  extends Promise<AsyncIterator<VoteImageConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<VoteImageEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateVoteImageSubscription>() => T;
+}
+
+export interface VoteImageEdge {
+  node: VoteImage;
+  cursor: String;
+}
+
+export interface VoteImageEdgePromise
+  extends Promise<VoteImageEdge>,
+    Fragmentable {
+  node: <T = VoteImagePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface VoteImageEdgeSubscription
+  extends Promise<AsyncIterator<VoteImageEdge>>,
+    Fragmentable {
+  node: <T = VoteImageSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateVoteImage {
+  count: Int;
+}
+
+export interface AggregateVoteImagePromise
+  extends Promise<AggregateVoteImage>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateVoteImageSubscription
+  extends Promise<AsyncIterator<AggregateVoteImage>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface BatchPayload {
   count: Long;
 }
@@ -1405,10 +1725,11 @@ export interface ImageSubscriptionPayloadSubscription
 
 export interface ImagePreviousValues {
   id: ID_Output;
-  name?: String;
+  name: String;
   createdAt: DateTimeOutput;
   description: String;
   origin?: String;
+  url?: String;
 }
 
 export interface ImagePreviousValuesPromise
@@ -1419,6 +1740,7 @@ export interface ImagePreviousValuesPromise
   createdAt: () => Promise<DateTimeOutput>;
   description: () => Promise<String>;
   origin: () => Promise<String>;
+  url: () => Promise<String>;
 }
 
 export interface ImagePreviousValuesSubscription
@@ -1429,6 +1751,7 @@ export interface ImagePreviousValuesSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   description: () => Promise<AsyncIterator<String>>;
   origin: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
 }
 
 export interface LinkSubscriptionPayload {
@@ -1572,6 +1895,47 @@ export interface VotePreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
 }
 
+export interface VoteImageSubscriptionPayload {
+  mutation: MutationType;
+  node: VoteImage;
+  updatedFields: String[];
+  previousValues: VoteImagePreviousValues;
+}
+
+export interface VoteImageSubscriptionPayloadPromise
+  extends Promise<VoteImageSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = VoteImagePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = VoteImagePreviousValuesPromise>() => T;
+}
+
+export interface VoteImageSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<VoteImageSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = VoteImageSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = VoteImagePreviousValuesSubscription>() => T;
+}
+
+export interface VoteImagePreviousValues {
+  id: ID_Output;
+}
+
+export interface VoteImagePreviousValuesPromise
+  extends Promise<VoteImagePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+}
+
+export interface VoteImagePreviousValuesSubscription
+  extends Promise<AsyncIterator<VoteImagePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+}
+
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
@@ -1624,6 +1988,10 @@ export const models: Model[] = [
   },
   {
     name: "Vote",
+    embedded: false
+  },
+  {
+    name: "VoteImage",
     embedded: false
   }
 ];
