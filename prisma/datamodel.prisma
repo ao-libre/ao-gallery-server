@@ -23,12 +23,18 @@ type Vote {
 }
 
 type Image {
-  id: ID!
+  id: ID! @unique
   name: String
   createdAt: DateTime!
   description: String!
   postedBy: User
   origin: String
-  # votes: [VoteImage!]!
+  votes: [VoteImage!]!
   #  indexingData: IndexingData!
+}
+
+type VoteImage {
+  id: ID!
+  image: Image!
+  user: User!
 }
