@@ -9,7 +9,7 @@ type Query {
         first: Int,
         orderBy: LinkOrderByInput
     ): Feed!
-  
+
     users(
         name: String
         skip: Int
@@ -21,6 +21,10 @@ type Query {
         id: ID!
     ): User!
 
+    image(
+        id: ID!
+    ): Image!
+
     imageList(
         filter: String,
         skip: Int,
@@ -30,14 +34,14 @@ type Query {
 }
 
 enum LinkOrderByInput {
-  description_ASC
-  description_DESC
-  url_ASC
-  url_DESC
-  createdAt_ASC
-  createdAt_DESC
-  name_ASC
-  name_DESC
+    description_ASC
+    description_DESC
+    url_ASC
+    url_DESC
+    createdAt_ASC
+    createdAt_DESC
+    name_ASC
+    name_DESC
 }
 
 enum ImageOrderByInput {
@@ -56,41 +60,41 @@ enum ImageOrderByInput {
 #// #########TIPOS  DE OBJETOS (ObjType)##########
 
 enum objTypes {
-  comida
-  armas
-  armaduras
-  arboles
-  dinero
-  puertas
-  objetos_contenedores
-  carteles
-  llaves
-  foros
-  pociones
-  libros
-  bebida
-  lena
-  fogata
-  escudos
-  cascos
-  anillos
-  telep
-  muebles
-  joyas
-  yacimiento
-  metales
-  pergaminos
-  aura
-  instrumentos_musicales
-  yunque
-  fragua
-  gemas
-  flores
-  barcos
-  flechas
-  botellas_vacias
-  botellas_llenas
-  manchas
+    comida
+    armas
+    armaduras
+    arboles
+    dinero
+    puertas
+    objetos_contenedores
+    carteles
+    llaves
+    foros
+    pociones
+    libros
+    bebida
+    lena
+    fogata
+    escudos
+    cascos
+    anillos
+    telep
+    muebles
+    joyas
+    yacimiento
+    metales
+    pergaminos
+    aura
+    instrumentos_musicales
+    yunque
+    fragua
+    gemas
+    flores
+    barcos
+    flechas
+    botellas_vacias
+    botellas_llenas
+    manchas
 }
 
 enum potionType {
@@ -102,64 +106,64 @@ enum potionType {
 }
 
 type Feed {
-  links: [Link!]!
-  count: Int!
+    links: [Link!]!
+    count: Int!
 }
 
 type Mutation {
-  post(url: String!, description: String!): Link!
-  signup(email: String!, password: String!, name: String!): AuthPayload
-  login(email: String!, password: String!): AuthPayload
-  vote(linkId: ID!): Vote!
-  uploadImage(origin: String, description: String!, name: String!, url: String!): Image!
+    post(url: String!, description: String!): Link!
+    signup(email: String!, password: String!, name: String!): AuthPayload
+    login(email: String!, password: String!): AuthPayload
+    vote(linkId: ID!): Vote!
+    uploadImage(origin: String, description: String!, name: String!, url: String!): Image!
 }
 
 type Subscription {
-  newLink: Link
-  newVote: Vote
+    newLink: Link
+    newVote: Vote
 }
 
 type AuthPayload {
-  token: String
-  user: User
+    token: String
+    user: User
 }
 
 type User {
-  id: ID!
-  name: String!
-  email: String!
-  links: [Link!]!
-  images: [Image!]!
+    id: ID!
+    name: String!
+    email: String!
+    links: [Link!]!
+    images: [Image!]!
 }
 
 type Users {
-  users: [User!]!
+    users: [User!]!
 }
 
 type Link {
-  id: ID!
-  createdAt: DateTime!
-  description: String!
-  url: String!
-  postedBy: User
-  votes: [Vote!]!
+    id: ID!
+    createdAt: DateTime!
+    description: String!
+    url: String!
+    postedBy: User
+    votes: [Vote!]!
 }
 
 type Image {
-  id: ID!
-  name: String!
-  createdAt: DateTime!
-  description: String!
-  uploadedBy: User
-  origin: String
-  votes: [VoteImage!]!
-  url: String
-#  indexingData: IndexingData!
+    id: ID!
+    name: String!
+    createdAt: DateTime!
+    description: String!
+    uploadedBy: User
+    origin: String
+    votes: [VoteImage!]!
+    url: String
+    #  indexingData: IndexingData!
 }
 
 type ImageList {
-  images: [Image!]!
-  count: Int!
+    images: [Image!]!
+    count: Int!
 }
 
 #type IndexingData {
@@ -203,13 +207,13 @@ type ImageList {
 #}
 
 type VoteImage {
-  id: ID!
-  image: Image!
-  user: User!
+    id: ID!
+    image: Image!
+    user: User!
 }
 
 type Vote {
-  id: ID!
-  link: Link!
-  user: User!
+    id: ID!
+    link: Link!
+    user: User!
 }
