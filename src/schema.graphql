@@ -1,5 +1,20 @@
 scalar DateTime
 
+type Mutation {
+    post(url: String!, description: String!): Link!
+    signup(email: String!, password: String!, name: String!): AuthPayload
+    login(email: String!, password: String!): AuthPayload
+    vote(linkId: ID!): Vote!
+    voteImage(imageId: ID!): VoteImage!
+    uploadImage(origin: String, description: String!, name: String!, url: String!): Image!
+}
+
+type Subscription {
+    newLink: Link
+    newVote: Vote
+    newImage: Image
+}
+
 type Query {
     info: String!
 
@@ -108,19 +123,6 @@ enum potionType {
 type Feed {
     links: [Link!]!
     count: Int!
-}
-
-type Mutation {
-    post(url: String!, description: String!): Link!
-    signup(email: String!, password: String!, name: String!): AuthPayload
-    login(email: String!, password: String!): AuthPayload
-    vote(linkId: ID!): Vote!
-    uploadImage(origin: String, description: String!, name: String!, url: String!): Image!
-}
-
-type Subscription {
-    newLink: Link
-    newVote: Vote
 }
 
 type AuthPayload {

@@ -20,7 +20,19 @@ const newVote = {
   },
 }
 
+function newImageSubscribe(parent, args, context, info) {
+  return context.prisma.$subscribe.image({ mutation_in: ['CREATED'] }).node()
+}
+
+const newImage = {
+  subscribe: newImageSubscribe,
+  resolve: payload => {
+    return payload
+  },
+}
+
 module.exports = {
   newLink,
   newVote,
+  newImage,
 }

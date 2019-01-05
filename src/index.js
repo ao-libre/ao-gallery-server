@@ -6,6 +6,7 @@ const Subscription = require('./resolvers/Subscription')
 const User = require('./resolvers/User')
 const Link = require('./resolvers/Link')
 const Vote = require('./resolvers/Vote')
+const VoteImage = require('./resolvers/VoteImage')
 const Image = require('./resolvers/Image')
 
 const resolvers = {
@@ -15,6 +16,7 @@ const resolvers = {
   User,
   Link,
   Vote,
+  VoteImage,
   Image,
 }
 
