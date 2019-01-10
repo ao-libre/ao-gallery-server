@@ -6,7 +6,7 @@ type Mutation {
     login(email: String!, password: String!): AuthPayload
     vote(linkId: ID!): Vote!
     voteImage(imageId: ID!): VoteImage!
-    uploadImage(origin: String, description: String!, name: String!, url: String!): Image!
+    uploadImage(origin: String, description: String!, name: String!, url: String!, urls: [String!]!): Image!
 }
 
 type Subscription {
@@ -160,6 +160,7 @@ type Image {
     origin: String
     votes: [VoteImage!]!
     url: String
+    urls: [String!]!
     #  indexingData: IndexingData!
 }
 

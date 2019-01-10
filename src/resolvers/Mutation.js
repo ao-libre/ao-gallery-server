@@ -18,6 +18,7 @@ function uploadImage(parent, args, context) {
         description: args.description,
         origin: args.origin,
         url: args.url,
+        urls: args.urls,
         uploadedBy: { connect: { id: userId } },
     })
 }

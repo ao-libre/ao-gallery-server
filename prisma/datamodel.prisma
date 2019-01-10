@@ -31,6 +31,7 @@ type Image {
   origin: String
   votes: [VoteImage!]
   url: String
+  urls: [String!]!
   #  indexingData: IndexingData!
 }
 
