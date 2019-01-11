@@ -27,11 +27,12 @@ type Image {
   name: String!
   createdAt: DateTime!
   description: String!
-  uploadedBy: User
+  uploadedBy: User!
   origin: String
+  category: String!
   votes: [VoteImage!]
-  url: String
   urls: [String!]!
+  indexingData: String
   #  indexingData: IndexingData!
 }
 

@@ -30,11 +30,12 @@ type Image {
   name: String!
   createdAt: DateTime!
   description: String!
-  uploadedBy: User
+  uploadedBy: User!
   origin: String
+  category: String!
   votes(where: VoteImageWhereInput, orderBy: VoteImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [VoteImage!]
-  url: String
   urls: [String!]!
+  indexingData: String
 }
 
 type ImageConnection {
@@ -46,11 +47,12 @@ type ImageConnection {
 input ImageCreateInput {
   name: String!
   description: String!
-  uploadedBy: UserCreateOneInput
+  uploadedBy: UserCreateOneInput!
   origin: String
+  category: String!
   votes: VoteImageCreateManyWithoutImageInput
-  url: String
   urls: ImageCreateurlsInput
+  indexingData: String
 }
 
 input ImageCreateOneWithoutVotesInput {
@@ -65,10 +67,11 @@ input ImageCreateurlsInput {
 input ImageCreateWithoutVotesInput {
   name: String!
   description: String!
-  uploadedBy: UserCreateOneInput
+  uploadedBy: UserCreateOneInput!
   origin: String
-  url: String
+  category: String!
   urls: ImageCreateurlsInput
+  indexingData: String
 }
 
 type ImageEdge {
@@ -87,8 +90,10 @@ enum ImageOrderByInput {
   description_DESC
   origin_ASC
   origin_DESC
-  url_ASC
-  url_DESC
+  category_ASC
+  category_DESC
+  indexingData_ASC
+  indexingData_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
@@ -99,8 +104,9 @@ type ImagePreviousValues {
   createdAt: DateTime!
   description: String!
   origin: String
-  url: String
+  category: String!
   urls: [String!]!
+  indexingData: String
 }
 
 type ImageSubscriptionPayload {
@@ -124,11 +130,12 @@ input ImageSubscriptionWhereInput {
 input ImageUpdateInput {
   name: String
   description: String
-  uploadedBy: UserUpdateOneInput
+  uploadedBy: UserUpdateOneRequiredInput
   origin: String
+  category: String
   votes: VoteImageUpdateManyWithoutImageInput
-  url: String
   urls: ImageUpdateurlsInput
+  indexingData: String
 }
 
 input ImageUpdateOneRequiredWithoutVotesInput {
@@ -145,10 +152,11 @@ input ImageUpdateurlsInput {
 input ImageUpdateWithoutVotesDataInput {
   name: String
   description: String
-  uploadedBy: UserUpdateOneInput
+  uploadedBy: UserUpdateOneRequiredInput
   origin: String
-  url: String
+  category: String
   urls: ImageUpdateurlsInput
+  indexingData: String
 }
 
 input ImageUpsertWithoutVotesInput {
@@ -222,23 +230,37 @@ input ImageWhereInput {
   origin_not_starts_with: String
   origin_ends_with: String
   origin_not_ends_with: String
+  category: String
+  category_not: String
+  category_in: [String!]
+  category_not_in: [String!]
+  category_lt: String
+  category_lte: String
+  category_gt: String
+  category_gte: String
+  category_contains: String
+  category_not_contains: String
+  category_starts_with: String
+  category_not_starts_with: String
+  category_ends_with: String
+  category_not_ends_with: String
   votes_every: VoteImageWhereInput
   votes_some: VoteImageWhereInput
   votes_none: VoteImageWhereInput
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
+  indexingData: String
+  indexingData_not: String
+  indexingData_in: [String!]
+  indexingData_not_in: [String!]
+  indexingData_lt: String
+  indexingData_lte: String
+  indexingData_gt: String
+  indexingData_gte: String
+  indexingData_contains: String
+  indexingData_not_contains: String
+  indexingData_starts_with: String
+  indexingData_not_starts_with: String
+  indexingData_ends_with: String
+  indexingData_not_ends_with: String
   AND: [ImageWhereInput!]
   OR: [ImageWhereInput!]
   NOT: [ImageWhereInput!]
@@ -640,15 +662,6 @@ input UserUpdateInput {
   password: String
   links: LinkUpdateManyWithoutPostedByInput
   votes: VoteUpdateManyWithoutUserInput
-}
-
-input UserUpdateOneInput {
-  create: UserCreateInput
-  update: UserUpdateDataInput
-  upsert: UserUpsertNestedInput
-  delete: Boolean
-  disconnect: Boolean
-  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneRequiredInput {

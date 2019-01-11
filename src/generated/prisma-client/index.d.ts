@@ -311,8 +311,10 @@ export type ImageOrderByInput =
   | "description_DESC"
   | "origin_ASC"
   | "origin_DESC"
-  | "url_ASC"
-  | "url_DESC"
+  | "category_ASC"
+  | "category_DESC"
+  | "indexingData_ASC"
+  | "indexingData_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
@@ -335,11 +337,12 @@ export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 export interface ImageUpdateInput {
   name?: String;
   description?: String;
-  uploadedBy?: UserUpdateOneInput;
+  uploadedBy?: UserUpdateOneRequiredInput;
   origin?: String;
+  category?: String;
   votes?: VoteImageUpdateManyWithoutImageInput;
-  url?: String;
   urls?: ImageUpdateurlsInput;
+  indexingData?: String;
 }
 
 export type ImageWhereUniqueInput = AtLeastOne<{
@@ -378,10 +381,9 @@ export interface VoteCreateManyWithoutLinkInput {
   connect?: VoteWhereUniqueInput[] | VoteWhereUniqueInput;
 }
 
-export interface VoteUpsertWithWhereUniqueWithoutUserInput {
-  where: VoteWhereUniqueInput;
-  update: VoteUpdateWithoutUserDataInput;
-  create: VoteCreateWithoutUserInput;
+export interface LinkUpsertWithoutVotesInput {
+  update: LinkUpdateWithoutVotesDataInput;
+  create: LinkCreateWithoutVotesInput;
 }
 
 export interface VoteCreateWithoutLinkInput {
@@ -483,23 +485,37 @@ export interface ImageWhereInput {
   origin_not_starts_with?: String;
   origin_ends_with?: String;
   origin_not_ends_with?: String;
+  category?: String;
+  category_not?: String;
+  category_in?: String[] | String;
+  category_not_in?: String[] | String;
+  category_lt?: String;
+  category_lte?: String;
+  category_gt?: String;
+  category_gte?: String;
+  category_contains?: String;
+  category_not_contains?: String;
+  category_starts_with?: String;
+  category_not_starts_with?: String;
+  category_ends_with?: String;
+  category_not_ends_with?: String;
   votes_every?: VoteImageWhereInput;
   votes_some?: VoteImageWhereInput;
   votes_none?: VoteImageWhereInput;
-  url?: String;
-  url_not?: String;
-  url_in?: String[] | String;
-  url_not_in?: String[] | String;
-  url_lt?: String;
-  url_lte?: String;
-  url_gt?: String;
-  url_gte?: String;
-  url_contains?: String;
-  url_not_contains?: String;
-  url_starts_with?: String;
-  url_not_starts_with?: String;
-  url_ends_with?: String;
-  url_not_ends_with?: String;
+  indexingData?: String;
+  indexingData_not?: String;
+  indexingData_in?: String[] | String;
+  indexingData_not_in?: String[] | String;
+  indexingData_lt?: String;
+  indexingData_lte?: String;
+  indexingData_gt?: String;
+  indexingData_gte?: String;
+  indexingData_contains?: String;
+  indexingData_not_contains?: String;
+  indexingData_starts_with?: String;
+  indexingData_not_starts_with?: String;
+  indexingData_ends_with?: String;
+  indexingData_not_ends_with?: String;
   AND?: ImageWhereInput[] | ImageWhereInput;
   OR?: ImageWhereInput[] | ImageWhereInput;
   NOT?: ImageWhereInput[] | ImageWhereInput;
@@ -544,10 +560,11 @@ export interface LinkCreateOneWithoutVotesInput {
 export interface ImageUpdateWithoutVotesDataInput {
   name?: String;
   description?: String;
-  uploadedBy?: UserUpdateOneInput;
+  uploadedBy?: UserUpdateOneRequiredInput;
   origin?: String;
-  url?: String;
+  category?: String;
   urls?: ImageUpdateurlsInput;
+  indexingData?: String;
 }
 
 export interface LinkCreateWithoutVotesInput {
@@ -569,10 +586,11 @@ export interface UserCreateOneWithoutLinksInput {
 export interface ImageCreateWithoutVotesInput {
   name: String;
   description: String;
-  uploadedBy?: UserCreateOneInput;
+  uploadedBy: UserCreateOneInput;
   origin?: String;
-  url?: String;
+  category: String;
   urls?: ImageCreateurlsInput;
+  indexingData?: String;
 }
 
 export interface UserCreateWithoutLinksInput {
@@ -619,31 +637,19 @@ export type VoteWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface VoteImageUpdateManyWithoutImageInput {
-  create?:
-    | VoteImageCreateWithoutImageInput[]
-    | VoteImageCreateWithoutImageInput;
-  delete?: VoteImageWhereUniqueInput[] | VoteImageWhereUniqueInput;
-  connect?: VoteImageWhereUniqueInput[] | VoteImageWhereUniqueInput;
-  disconnect?: VoteImageWhereUniqueInput[] | VoteImageWhereUniqueInput;
-  update?:
-    | VoteImageUpdateWithWhereUniqueWithoutImageInput[]
-    | VoteImageUpdateWithWhereUniqueWithoutImageInput;
-  upsert?:
-    | VoteImageUpsertWithWhereUniqueWithoutImageInput[]
-    | VoteImageUpsertWithWhereUniqueWithoutImageInput;
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
 }
 
 export interface ImageUpdateurlsInput {
   set?: String[] | String;
 }
 
-export interface UserUpdateOneInput {
+export interface UserUpdateOneRequiredInput {
   create?: UserCreateInput;
   update?: UserUpdateDataInput;
   upsert?: UserUpsertNestedInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
   connect?: UserWhereUniqueInput;
 }
 
@@ -659,8 +665,9 @@ export interface UserUpdateDataInput {
   votes?: VoteUpdateManyWithoutUserInput;
 }
 
-export interface VoteImageUpdateWithoutImageDataInput {
-  user?: UserUpdateOneRequiredInput;
+export interface VoteImageUpdateWithWhereUniqueWithoutImageInput {
+  where: VoteImageWhereUniqueInput;
+  data: VoteImageUpdateWithoutImageDataInput;
 }
 
 export interface LinkUpdateManyWithoutPostedByInput {
@@ -754,9 +761,10 @@ export interface LinkCreateManyWithoutPostedByInput {
   connect?: LinkWhereUniqueInput[] | LinkWhereUniqueInput;
 }
 
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
+export interface VoteUpsertWithWhereUniqueWithoutUserInput {
+  where: VoteWhereUniqueInput;
+  update: VoteUpdateWithoutUserDataInput;
+  create: VoteCreateWithoutUserInput;
 }
 
 export interface LinkWhereInput {
@@ -904,9 +912,19 @@ export interface VoteUpsertWithWhereUniqueWithoutLinkInput {
   create: VoteCreateWithoutLinkInput;
 }
 
-export interface VoteImageUpdateWithWhereUniqueWithoutImageInput {
-  where: VoteImageWhereUniqueInput;
-  data: VoteImageUpdateWithoutImageDataInput;
+export interface VoteImageUpdateManyWithoutImageInput {
+  create?:
+    | VoteImageCreateWithoutImageInput[]
+    | VoteImageCreateWithoutImageInput;
+  delete?: VoteImageWhereUniqueInput[] | VoteImageWhereUniqueInput;
+  connect?: VoteImageWhereUniqueInput[] | VoteImageWhereUniqueInput;
+  disconnect?: VoteImageWhereUniqueInput[] | VoteImageWhereUniqueInput;
+  update?:
+    | VoteImageUpdateWithWhereUniqueWithoutImageInput[]
+    | VoteImageUpdateWithWhereUniqueWithoutImageInput;
+  upsert?:
+    | VoteImageUpsertWithWhereUniqueWithoutImageInput[]
+    | VoteImageUpsertWithWhereUniqueWithoutImageInput;
 }
 
 export interface LinkUpsertWithWhereUniqueWithoutPostedByInput {
@@ -986,28 +1004,8 @@ export interface LinkUpdateOneRequiredWithoutVotesInput {
   connect?: LinkWhereUniqueInput;
 }
 
-export interface UserUpdateOneRequiredInput {
-  create?: UserCreateInput;
-  update?: UserUpdateDataInput;
-  upsert?: UserUpsertNestedInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface LinkUpdateWithoutVotesDataInput {
-  description?: String;
-  url?: String;
-  postedBy?: UserUpdateOneWithoutLinksInput;
-}
-
-export interface LinkCreateWithoutPostedByInput {
-  description: String;
-  url: String;
-  votes?: VoteCreateManyWithoutLinkInput;
-}
-
-export interface LinkUpsertWithoutVotesInput {
-  update: LinkUpdateWithoutVotesDataInput;
-  create: LinkCreateWithoutVotesInput;
+export interface VoteImageUpdateWithoutImageDataInput {
+  user?: UserUpdateOneRequiredInput;
 }
 
 export interface UserUpsertWithoutLinksInput {
@@ -1031,25 +1029,21 @@ export interface UserUpdateOneWithoutLinksInput {
   connect?: UserWhereUniqueInput;
 }
 
-export interface LinkSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: LinkWhereInput;
-  AND?: LinkSubscriptionWhereInput[] | LinkSubscriptionWhereInput;
-  OR?: LinkSubscriptionWhereInput[] | LinkSubscriptionWhereInput;
-  NOT?: LinkSubscriptionWhereInput[] | LinkSubscriptionWhereInput;
+export interface LinkUpdateWithoutVotesDataInput {
+  description?: String;
+  url?: String;
+  postedBy?: UserUpdateOneWithoutLinksInput;
 }
 
 export interface ImageCreateInput {
   name: String;
   description: String;
-  uploadedBy?: UserCreateOneInput;
+  uploadedBy: UserCreateOneInput;
   origin?: String;
+  category: String;
   votes?: VoteImageCreateManyWithoutImageInput;
-  url?: String;
   urls?: ImageCreateurlsInput;
+  indexingData?: String;
 }
 
 export interface LinkCreateInput {
@@ -1062,6 +1056,23 @@ export interface LinkCreateInput {
 export interface ImageCreateOneWithoutVotesInput {
   create?: ImageCreateWithoutVotesInput;
   connect?: ImageWhereUniqueInput;
+}
+
+export interface LinkSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: LinkWhereInput;
+  AND?: LinkSubscriptionWhereInput[] | LinkSubscriptionWhereInput;
+  OR?: LinkSubscriptionWhereInput[] | LinkSubscriptionWhereInput;
+  NOT?: LinkSubscriptionWhereInput[] | LinkSubscriptionWhereInput;
+}
+
+export interface LinkCreateWithoutPostedByInput {
+  description: String;
+  url: String;
+  votes?: VoteCreateManyWithoutLinkInput;
 }
 
 export interface NodeNode {
@@ -1375,8 +1386,9 @@ export interface ImageNode {
   createdAt: DateTimeOutput;
   description: String;
   origin?: String;
-  url?: String;
+  category: String;
   urls: String[];
+  indexingData?: String;
 }
 
 export interface Image extends Promise<ImageNode>, Fragmentable {
@@ -1386,6 +1398,7 @@ export interface Image extends Promise<ImageNode>, Fragmentable {
   description: () => Promise<String>;
   uploadedBy: <T = User>() => T;
   origin: () => Promise<String>;
+  category: () => Promise<String>;
   votes: <T = FragmentableArray<VoteImageNode>>(
     args?: {
       where?: VoteImageWhereInput;
@@ -1397,8 +1410,8 @@ export interface Image extends Promise<ImageNode>, Fragmentable {
       last?: Int;
     }
   ) => T;
-  url: () => Promise<String>;
   urls: () => Promise<String[]>;
+  indexingData: () => Promise<String>;
 }
 
 export interface ImageSubscription
@@ -1410,6 +1423,7 @@ export interface ImageSubscription
   description: () => Promise<AsyncIterator<String>>;
   uploadedBy: <T = UserSubscription>() => T;
   origin: () => Promise<AsyncIterator<String>>;
+  category: () => Promise<AsyncIterator<String>>;
   votes: <T = Promise<AsyncIterator<VoteImageSubscription>>>(
     args?: {
       where?: VoteImageWhereInput;
@@ -1421,8 +1435,8 @@ export interface ImageSubscription
       last?: Int;
     }
   ) => T;
-  url: () => Promise<AsyncIterator<String>>;
   urls: () => Promise<AsyncIterator<String[]>>;
+  indexingData: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserEdgeNode {
@@ -1488,8 +1502,9 @@ export interface ImagePreviousValuesNode {
   createdAt: DateTimeOutput;
   description: String;
   origin?: String;
-  url?: String;
+  category: String;
   urls: String[];
+  indexingData?: String;
 }
 
 export interface ImagePreviousValues
@@ -1500,8 +1515,9 @@ export interface ImagePreviousValues
   createdAt: () => Promise<DateTimeOutput>;
   description: () => Promise<String>;
   origin: () => Promise<String>;
-  url: () => Promise<String>;
+  category: () => Promise<String>;
   urls: () => Promise<String[]>;
+  indexingData: () => Promise<String>;
 }
 
 export interface ImagePreviousValuesSubscription
@@ -1512,8 +1528,9 @@ export interface ImagePreviousValuesSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   description: () => Promise<AsyncIterator<String>>;
   origin: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
+  category: () => Promise<AsyncIterator<String>>;
   urls: () => Promise<AsyncIterator<String[]>>;
+  indexingData: () => Promise<AsyncIterator<String>>;
 }
 
 export interface LinkEdgeNode {

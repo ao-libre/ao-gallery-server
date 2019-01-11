@@ -6,7 +6,15 @@ type Mutation {
     login(email: String!, password: String!): AuthPayload
     vote(linkId: ID!): Vote!
     voteImage(imageId: ID!): VoteImage!
-    uploadImage(origin: String, description: String!, name: String!, url: String!, urls: [String!]!): Image!
+    
+    uploadImage(
+        origin: String, 
+        description: String!, 
+        name: String!,
+        urls: [String!]!,
+        category: String,
+        indexingData: String
+    ): Image!
 }
 
 type Subscription {
@@ -62,8 +70,6 @@ enum LinkOrderByInput {
 enum ImageOrderByInput {
     description_ASC
     description_DESC
-    url_ASC
-    url_DESC
     uploadedBy_ASC
     uploadedBy_DESC
     name_ASC
@@ -156,11 +162,12 @@ type Image {
     name: String!
     createdAt: DateTime!
     description: String!
-    uploadedBy: User
+    uploadedBy: User!
     origin: String
+    category: String!
     votes: [VoteImage!]!
-    url: String
     urls: [String!]!
+    indexingData: String
     #  indexingData: IndexingData!
 }
 
