@@ -36,6 +36,7 @@ type Image {
   votes(where: VoteImageWhereInput, orderBy: VoteImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [VoteImage!]
   urls: [String!]!
   indexingData: String
+  dateoData: String
 }
 
 type ImageConnection {
@@ -53,6 +54,7 @@ input ImageCreateInput {
   votes: VoteImageCreateManyWithoutImageInput
   urls: ImageCreateurlsInput
   indexingData: String
+  dateoData: String
 }
 
 input ImageCreateOneWithoutVotesInput {
@@ -72,6 +74,7 @@ input ImageCreateWithoutVotesInput {
   category: String!
   urls: ImageCreateurlsInput
   indexingData: String
+  dateoData: String
 }
 
 type ImageEdge {
@@ -94,6 +97,8 @@ enum ImageOrderByInput {
   category_DESC
   indexingData_ASC
   indexingData_DESC
+  dateoData_ASC
+  dateoData_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
@@ -107,6 +112,7 @@ type ImagePreviousValues {
   category: String!
   urls: [String!]!
   indexingData: String
+  dateoData: String
 }
 
 type ImageSubscriptionPayload {
@@ -136,6 +142,17 @@ input ImageUpdateInput {
   votes: VoteImageUpdateManyWithoutImageInput
   urls: ImageUpdateurlsInput
   indexingData: String
+  dateoData: String
+}
+
+input ImageUpdateManyMutationInput {
+  name: String
+  description: String
+  origin: String
+  category: String
+  urls: ImageUpdateurlsInput
+  indexingData: String
+  dateoData: String
 }
 
 input ImageUpdateOneRequiredWithoutVotesInput {
@@ -157,6 +174,7 @@ input ImageUpdateWithoutVotesDataInput {
   category: String
   urls: ImageUpdateurlsInput
   indexingData: String
+  dateoData: String
 }
 
 input ImageUpsertWithoutVotesInput {
@@ -261,6 +279,20 @@ input ImageWhereInput {
   indexingData_not_starts_with: String
   indexingData_ends_with: String
   indexingData_not_ends_with: String
+  dateoData: String
+  dateoData_not: String
+  dateoData_in: [String!]
+  dateoData_not_in: [String!]
+  dateoData_lt: String
+  dateoData_lte: String
+  dateoData_gt: String
+  dateoData_gte: String
+  dateoData_contains: String
+  dateoData_not_contains: String
+  dateoData_starts_with: String
+  dateoData_not_starts_with: String
+  dateoData_ends_with: String
+  dateoData_not_ends_with: String
   AND: [ImageWhereInput!]
   OR: [ImageWhereInput!]
   NOT: [ImageWhereInput!]
@@ -339,6 +371,62 @@ type LinkPreviousValues {
   url: String!
 }
 
+input LinkScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  AND: [LinkScalarWhereInput!]
+  OR: [LinkScalarWhereInput!]
+  NOT: [LinkScalarWhereInput!]
+}
+
 type LinkSubscriptionPayload {
   mutation: MutationType!
   node: Link
@@ -364,6 +452,16 @@ input LinkUpdateInput {
   votes: VoteUpdateManyWithoutLinkInput
 }
 
+input LinkUpdateManyDataInput {
+  description: String
+  url: String
+}
+
+input LinkUpdateManyMutationInput {
+  description: String
+  url: String
+}
+
 input LinkUpdateManyWithoutPostedByInput {
   create: [LinkCreateWithoutPostedByInput!]
   delete: [LinkWhereUniqueInput!]
@@ -371,6 +469,13 @@ input LinkUpdateManyWithoutPostedByInput {
   disconnect: [LinkWhereUniqueInput!]
   update: [LinkUpdateWithWhereUniqueWithoutPostedByInput!]
   upsert: [LinkUpsertWithWhereUniqueWithoutPostedByInput!]
+  deleteMany: [LinkScalarWhereInput!]
+  updateMany: [LinkUpdateManyWithWhereNestedInput!]
+}
+
+input LinkUpdateManyWithWhereNestedInput {
+  where: LinkScalarWhereInput!
+  data: LinkUpdateManyDataInput!
 }
 
 input LinkUpdateOneRequiredWithoutVotesInput {
@@ -477,31 +582,29 @@ scalar Long
 type Mutation {
   createImage(data: ImageCreateInput!): Image!
   updateImage(data: ImageUpdateInput!, where: ImageWhereUniqueInput!): Image
-  updateManyImages(data: ImageUpdateInput!, where: ImageWhereInput): BatchPayload!
+  updateManyImages(data: ImageUpdateManyMutationInput!, where: ImageWhereInput): BatchPayload!
   upsertImage(where: ImageWhereUniqueInput!, create: ImageCreateInput!, update: ImageUpdateInput!): Image!
   deleteImage(where: ImageWhereUniqueInput!): Image
   deleteManyImages(where: ImageWhereInput): BatchPayload!
   createLink(data: LinkCreateInput!): Link!
   updateLink(data: LinkUpdateInput!, where: LinkWhereUniqueInput!): Link
-  updateManyLinks(data: LinkUpdateInput!, where: LinkWhereInput): BatchPayload!
+  updateManyLinks(data: LinkUpdateManyMutationInput!, where: LinkWhereInput): BatchPayload!
   upsertLink(where: LinkWhereUniqueInput!, create: LinkCreateInput!, update: LinkUpdateInput!): Link!
   deleteLink(where: LinkWhereUniqueInput!): Link
   deleteManyLinks(where: LinkWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   createVote(data: VoteCreateInput!): Vote!
   updateVote(data: VoteUpdateInput!, where: VoteWhereUniqueInput!): Vote
-  updateManyVotes(data: VoteUpdateInput!, where: VoteWhereInput): BatchPayload!
   upsertVote(where: VoteWhereUniqueInput!, create: VoteCreateInput!, update: VoteUpdateInput!): Vote!
   deleteVote(where: VoteWhereUniqueInput!): Vote
   deleteManyVotes(where: VoteWhereInput): BatchPayload!
   createVoteImage(data: VoteImageCreateInput!): VoteImage!
   updateVoteImage(data: VoteImageUpdateInput!, where: VoteImageWhereUniqueInput!): VoteImage
-  updateManyVoteImages(data: VoteImageUpdateInput!, where: VoteImageWhereInput): BatchPayload!
   upsertVoteImage(where: VoteImageWhereUniqueInput!, create: VoteImageCreateInput!, update: VoteImageUpdateInput!): VoteImage!
   deleteVoteImage(where: VoteImageWhereUniqueInput!): VoteImage
   deleteManyVoteImages(where: VoteImageWhereInput): BatchPayload!
@@ -662,6 +765,12 @@ input UserUpdateInput {
   password: String
   links: LinkUpdateManyWithoutPostedByInput
   votes: VoteUpdateManyWithoutUserInput
+}
+
+input UserUpdateManyMutationInput {
+  name: String
+  email: String
+  password: String
 }
 
 input UserUpdateOneRequiredInput {
@@ -873,6 +982,26 @@ type VoteImagePreviousValues {
   id: ID!
 }
 
+input VoteImageScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  AND: [VoteImageScalarWhereInput!]
+  OR: [VoteImageScalarWhereInput!]
+  NOT: [VoteImageScalarWhereInput!]
+}
+
 type VoteImageSubscriptionPayload {
   mutation: MutationType!
   node: VoteImage
@@ -903,6 +1032,7 @@ input VoteImageUpdateManyWithoutImageInput {
   disconnect: [VoteImageWhereUniqueInput!]
   update: [VoteImageUpdateWithWhereUniqueWithoutImageInput!]
   upsert: [VoteImageUpsertWithWhereUniqueWithoutImageInput!]
+  deleteMany: [VoteImageScalarWhereInput!]
 }
 
 input VoteImageUpdateWithoutImageDataInput {
@@ -959,6 +1089,26 @@ type VotePreviousValues {
   id: ID!
 }
 
+input VoteScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  AND: [VoteScalarWhereInput!]
+  OR: [VoteScalarWhereInput!]
+  NOT: [VoteScalarWhereInput!]
+}
+
 type VoteSubscriptionPayload {
   mutation: MutationType!
   node: Vote
@@ -989,6 +1139,7 @@ input VoteUpdateManyWithoutLinkInput {
   disconnect: [VoteWhereUniqueInput!]
   update: [VoteUpdateWithWhereUniqueWithoutLinkInput!]
   upsert: [VoteUpsertWithWhereUniqueWithoutLinkInput!]
+  deleteMany: [VoteScalarWhereInput!]
 }
 
 input VoteUpdateManyWithoutUserInput {
@@ -998,6 +1149,7 @@ input VoteUpdateManyWithoutUserInput {
   disconnect: [VoteWhereUniqueInput!]
   update: [VoteUpdateWithWhereUniqueWithoutUserInput!]
   upsert: [VoteUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [VoteScalarWhereInput!]
 }
 
 input VoteUpdateWithoutLinkDataInput {

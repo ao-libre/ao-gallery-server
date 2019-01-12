@@ -14,6 +14,7 @@ type Mutation {
         urls: [String!]!,
         category: String,
         indexingData: String
+        dateoData: String
     ): Image!
 }
 
@@ -78,54 +79,6 @@ enum ImageOrderByInput {
     createdAt_DESC
 }
 
-#// #########TIPOS  DE OBJETOS (ObjType)##########
-
-enum objTypes {
-    comida
-    armas
-    armaduras
-    arboles
-    dinero
-    puertas
-    objetos_contenedores
-    carteles
-    llaves
-    foros
-    pociones
-    libros
-    bebida
-    lena
-    fogata
-    escudos
-    cascos
-    anillos
-    telep
-    muebles
-    joyas
-    yacimiento
-    metales
-    pergaminos
-    aura
-    instrumentos_musicales
-    yunque
-    fragua
-    gemas
-    flores
-    barcos
-    flechas
-    botellas_vacias
-    botellas_llenas
-    manchas
-}
-
-enum potionType {
-    agilidad
-    fuerza
-    salud
-    mana
-    veneno
-}
-
 type Feed {
     links: [Link!]!
     count: Int!
@@ -168,7 +121,7 @@ type Image {
     votes: [VoteImage!]!
     urls: [String!]!
     indexingData: String
-    #  indexingData: IndexingData!
+    dateoData: String
 }
 
 type ImageList {
@@ -176,45 +129,6 @@ type ImageList {
     count: Int!
 }
 
-#type IndexingData {
-#    name: String,
-#    #    objType: objTypes,
-#    #    TipoPocion: potionType,
-#    razaEnanaAnim: Int,
-#    NumRopaje: Int,
-#    anim: Int,
-#    agarrable: Boolean,
-#    maxDef: String,
-#    minDef: String,
-#    minHit: String,
-#    maxHit: String,
-#    staffPower: String,
-#    staffDamageBonus: String,
-#    valor: Int,
-#    crucial: Boolean,
-#    cp1: String,
-#    cp2: String,
-#    cp3: String,
-#    cp4: String,
-#    cp5: String,
-#    cp6: String,
-#    cp7: String,
-#    lingH: Int,
-#    lingP: Int,
-#    lingO: Int,
-#    skHerreria: Int,
-#    upgrade: Int
-#    abierta: Boolean,
-#    llave: Boolean,
-#    indexAbierta: Int,
-#    indexCerrada: Int,
-#    indexCerradaLlave: Int,
-#    cantItems: Int,
-#    nroItems: Int,
-#    texto: String,
-#    Radio: Int,
-#    VGrande: Int,
-#}
 
 type VoteImage {
     id: ID!

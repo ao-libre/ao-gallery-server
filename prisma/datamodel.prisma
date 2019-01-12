@@ -33,7 +33,7 @@ type Image {
   votes: [VoteImage!]
   urls: [String!]!
   indexingData: String
-  #  indexingData: IndexingData!
+  dateoData: String
 }
 
 type VoteImage {
