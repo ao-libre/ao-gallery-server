@@ -2,8 +2,8 @@ datamodel: datamodel.prisma
 generate:
   - generator: javascript-client
     output: ../src/generated/prisma-client
-secret: mysecret123
+secret: CHANGE_ME
 hooks:
   post-deploy:
     - prisma generate
-endpoint: https://us1.prisma.sh/lucas-3856c0/ao-gallery/dev
+endpoint: https://CHANGE_ME
