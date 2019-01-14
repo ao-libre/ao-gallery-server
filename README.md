@@ -1,13 +1,12 @@
-# hackernews-graphql-js
-
-This repository contains the final project for the [**GraphQL.js tutorial**](https://www.howtographql.com/graphql-js/0-introduction/) on [How to GraphQL](https://www.howtographql.com/). Note that it also serves as foundation for all frontend tutorials on the site.
+# Argentum Online Gallery - Backend
+This is the backend for the AO Gallery project.
 
 ## Usage
 
 ### 1. Clone repository & install dependencies
 
 ```sh
-git clone https://github.com/howtographql/graphql-js	
+git clone https://github.com/ao-libre/ao-gallery-server
 cd graphql-js
 yarn install # or `npm install`
 ```
@@ -33,3 +32,10 @@ To interact with the API in a GraphQL Playground, all you need to do is execute 
 ```sh
 yarn start
 ```
+
+
+[**GraphQL.js tutorial**](https://www.howtographql.com/graphql-js/0-introduction/) on [How to GraphQL](https://www.howtographql.com/).
+
+
+
+
