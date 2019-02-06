@@ -37,6 +37,7 @@ type Image {
   urls: [String!]!
   indexingData: String
   dateoData: String
+  isDeleted: Boolean!
 }
 
 type ImageConnection {
@@ -55,6 +56,7 @@ input ImageCreateInput {
   urls: ImageCreateurlsInput
   indexingData: String
   dateoData: String
+  isDeleted: Boolean!
 }
 
 input ImageCreateOneWithoutVotesInput {
@@ -75,6 +77,7 @@ input ImageCreateWithoutVotesInput {
   urls: ImageCreateurlsInput
   indexingData: String
   dateoData: String
+  isDeleted: Boolean!
 }
 
 type ImageEdge {
@@ -99,6 +102,8 @@ enum ImageOrderByInput {
   indexingData_DESC
   dateoData_ASC
   dateoData_DESC
+  isDeleted_ASC
+  isDeleted_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
@@ -113,6 +118,7 @@ type ImagePreviousValues {
   urls: [String!]!
   indexingData: String
   dateoData: String
+  isDeleted: Boolean!
 }
 
 type ImageSubscriptionPayload {
@@ -143,6 +149,7 @@ input ImageUpdateInput {
   urls: ImageUpdateurlsInput
   indexingData: String
   dateoData: String
+  isDeleted: Boolean
 }
 
 input ImageUpdateManyMutationInput {
@@ -153,6 +160,7 @@ input ImageUpdateManyMutationInput {
   urls: ImageUpdateurlsInput
   indexingData: String
   dateoData: String
+  isDeleted: Boolean
 }
 
 input ImageUpdateOneRequiredWithoutVotesInput {
@@ -175,6 +183,7 @@ input ImageUpdateWithoutVotesDataInput {
   urls: ImageUpdateurlsInput
   indexingData: String
   dateoData: String
+  isDeleted: Boolean
 }
 
 input ImageUpsertWithoutVotesInput {
@@ -293,6 +302,8 @@ input ImageWhereInput {
   dateoData_not_starts_with: String
   dateoData_ends_with: String
   dateoData_not_ends_with: String
+  isDeleted: Boolean
+  isDeleted_not: Boolean
   AND: [ImageWhereInput!]
   OR: [ImageWhereInput!]
   NOT: [ImageWhereInput!]
@@ -661,6 +672,7 @@ type User {
   password: String!
   links(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Link!]
   votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote!]
+  isAdmin: Boolean!
 }
 
 type UserConnection {
@@ -675,6 +687,7 @@ input UserCreateInput {
   password: String!
   links: LinkCreateManyWithoutPostedByInput
   votes: VoteCreateManyWithoutUserInput
+  isAdmin: Boolean!
 }
 
 input UserCreateOneInput {
@@ -697,6 +710,7 @@ input UserCreateWithoutLinksInput {
   email: String!
   password: String!
   votes: VoteCreateManyWithoutUserInput
+  isAdmin: Boolean!
 }
 
 input UserCreateWithoutVotesInput {
@@ -704,6 +718,7 @@ input UserCreateWithoutVotesInput {
   email: String!
   password: String!
   links: LinkCreateManyWithoutPostedByInput
+  isAdmin: Boolean!
 }
 
 type UserEdge {
@@ -720,6 +735,8 @@ enum UserOrderByInput {
   email_DESC
   password_ASC
   password_DESC
+  isAdmin_ASC
+  isAdmin_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -731,6 +748,7 @@ type UserPreviousValues {
   name: String!
   email: String!
   password: String!
+  isAdmin: Boolean!
 }
 
 type UserSubscriptionPayload {
@@ -757,6 +775,7 @@ input UserUpdateDataInput {
   password: String
   links: LinkUpdateManyWithoutPostedByInput
   votes: VoteUpdateManyWithoutUserInput
+  isAdmin: Boolean
 }
 
 input UserUpdateInput {
@@ -765,12 +784,14 @@ input UserUpdateInput {
   password: String
   links: LinkUpdateManyWithoutPostedByInput
   votes: VoteUpdateManyWithoutUserInput
+  isAdmin: Boolean
 }
 
 input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
+  isAdmin: Boolean
 }
 
 input UserUpdateOneRequiredInput {
@@ -801,6 +822,7 @@ input UserUpdateWithoutLinksDataInput {
   email: String
   password: String
   votes: VoteUpdateManyWithoutUserInput
+  isAdmin: Boolean
 }
 
 input UserUpdateWithoutVotesDataInput {
@@ -808,6 +830,7 @@ input UserUpdateWithoutVotesDataInput {
   email: String
   password: String
   links: LinkUpdateManyWithoutPostedByInput
+  isAdmin: Boolean
 }
 
 input UserUpsertNestedInput {
@@ -888,6 +911,8 @@ input UserWhereInput {
   votes_every: VoteWhereInput
   votes_some: VoteWhereInput
   votes_none: VoteWhereInput
+  isAdmin: Boolean
+  isAdmin_not: Boolean
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

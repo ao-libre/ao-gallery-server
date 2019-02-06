@@ -314,6 +314,8 @@ export type ImageOrderByInput =
   | "indexingData_DESC"
   | "dateoData_ASC"
   | "dateoData_DESC"
+  | "isDeleted_ASC"
+  | "isDeleted_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
@@ -326,6 +328,8 @@ export type UserOrderByInput =
   | "email_DESC"
   | "password_ASC"
   | "password_DESC"
+  | "isAdmin_ASC"
+  | "isAdmin_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -460,6 +464,8 @@ export interface UserWhereInput {
   votes_every?: VoteWhereInput;
   votes_some?: VoteWhereInput;
   votes_none?: VoteWhereInput;
+  isAdmin?: Boolean;
+  isAdmin_not?: Boolean;
   AND?: UserWhereInput[] | UserWhereInput;
   OR?: UserWhereInput[] | UserWhereInput;
   NOT?: UserWhereInput[] | UserWhereInput;
@@ -620,6 +626,8 @@ export interface ImageWhereInput {
   dateoData_not_starts_with?: String;
   dateoData_ends_with?: String;
   dateoData_not_ends_with?: String;
+  isDeleted?: Boolean;
+  isDeleted_not?: Boolean;
   AND?: ImageWhereInput[] | ImageWhereInput;
   OR?: ImageWhereInput[] | ImageWhereInput;
   NOT?: ImageWhereInput[] | ImageWhereInput;
@@ -652,6 +660,7 @@ export interface ImageCreateInput {
   urls?: ImageCreateurlsInput;
   indexingData?: String;
   dateoData?: String;
+  isDeleted: Boolean;
 }
 
 export interface UserCreateOneInput {
@@ -665,6 +674,7 @@ export interface UserCreateInput {
   password: String;
   links?: LinkCreateManyWithoutPostedByInput;
   votes?: VoteCreateManyWithoutUserInput;
+  isAdmin: Boolean;
 }
 
 export interface LinkCreateManyWithoutPostedByInput {
@@ -697,6 +707,7 @@ export interface UserCreateWithoutVotesInput {
   email: String;
   password: String;
   links?: LinkCreateManyWithoutPostedByInput;
+  isAdmin: Boolean;
 }
 
 export interface VoteCreateManyWithoutUserInput {
@@ -729,6 +740,7 @@ export interface UserCreateWithoutLinksInput {
   email: String;
   password: String;
   votes?: VoteCreateManyWithoutUserInput;
+  isAdmin: Boolean;
 }
 
 export interface VoteImageCreateManyWithoutImageInput {
@@ -756,6 +768,7 @@ export interface ImageUpdateInput {
   urls?: ImageUpdateurlsInput;
   indexingData?: String;
   dateoData?: String;
+  isDeleted?: Boolean;
 }
 
 export interface UserUpdateOneRequiredInput {
@@ -771,6 +784,7 @@ export interface UserUpdateDataInput {
   password?: String;
   links?: LinkUpdateManyWithoutPostedByInput;
   votes?: VoteUpdateManyWithoutUserInput;
+  isAdmin?: Boolean;
 }
 
 export interface LinkUpdateManyWithoutPostedByInput {
@@ -836,6 +850,7 @@ export interface UserUpdateWithoutVotesDataInput {
   email?: String;
   password?: String;
   links?: LinkUpdateManyWithoutPostedByInput;
+  isAdmin?: Boolean;
 }
 
 export interface UserUpsertWithoutVotesInput {
@@ -991,6 +1006,7 @@ export interface UserUpdateWithoutLinksDataInput {
   email?: String;
   password?: String;
   votes?: VoteUpdateManyWithoutUserInput;
+  isAdmin?: Boolean;
 }
 
 export interface UserUpsertWithoutLinksInput {
@@ -1077,6 +1093,7 @@ export interface ImageUpdateManyMutationInput {
   urls?: ImageUpdateurlsInput;
   indexingData?: String;
   dateoData?: String;
+  isDeleted?: Boolean;
 }
 
 export interface LinkCreateInput {
@@ -1104,12 +1121,14 @@ export interface UserUpdateInput {
   password?: String;
   links?: LinkUpdateManyWithoutPostedByInput;
   votes?: VoteUpdateManyWithoutUserInput;
+  isAdmin?: Boolean;
 }
 
 export interface UserUpdateManyMutationInput {
   name?: String;
   email?: String;
   password?: String;
+  isAdmin?: Boolean;
 }
 
 export interface VoteCreateInput {
@@ -1141,6 +1160,7 @@ export interface ImageCreateWithoutVotesInput {
   urls?: ImageCreateurlsInput;
   indexingData?: String;
   dateoData?: String;
+  isDeleted: Boolean;
 }
 
 export interface VoteImageUpdateInput {
@@ -1164,6 +1184,7 @@ export interface ImageUpdateWithoutVotesDataInput {
   urls?: ImageUpdateurlsInput;
   indexingData?: String;
   dateoData?: String;
+  isDeleted?: Boolean;
 }
 
 export interface ImageUpsertWithoutVotesInput {
@@ -1240,6 +1261,7 @@ export interface Image {
   urls: String[];
   indexingData?: String;
   dateoData?: String;
+  isDeleted: Boolean;
 }
 
 export interface ImagePromise extends Promise<Image>, Fragmentable {
@@ -1264,6 +1286,7 @@ export interface ImagePromise extends Promise<Image>, Fragmentable {
   urls: () => Promise<String[]>;
   indexingData: () => Promise<String>;
   dateoData: () => Promise<String>;
+  isDeleted: () => Promise<Boolean>;
 }
 
 export interface ImageSubscription
@@ -1290,6 +1313,7 @@ export interface ImageSubscription
   urls: () => Promise<AsyncIterator<String[]>>;
   indexingData: () => Promise<AsyncIterator<String>>;
   dateoData: () => Promise<AsyncIterator<String>>;
+  isDeleted: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface User {
@@ -1297,6 +1321,7 @@ export interface User {
   name: String;
   email: String;
   password: String;
+  isAdmin: Boolean;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -1326,6 +1351,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
       last?: Int;
     }
   ) => T;
+  isAdmin: () => Promise<Boolean>;
 }
 
 export interface UserSubscription
@@ -1357,6 +1383,7 @@ export interface UserSubscription
       last?: Int;
     }
   ) => T;
+  isAdmin: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface Link {
@@ -1788,6 +1815,7 @@ export interface ImagePreviousValues {
   urls: String[];
   indexingData?: String;
   dateoData?: String;
+  isDeleted: Boolean;
 }
 
 export interface ImagePreviousValuesPromise
@@ -1802,6 +1830,7 @@ export interface ImagePreviousValuesPromise
   urls: () => Promise<String[]>;
   indexingData: () => Promise<String>;
   dateoData: () => Promise<String>;
+  isDeleted: () => Promise<Boolean>;
 }
 
 export interface ImagePreviousValuesSubscription
@@ -1816,6 +1845,7 @@ export interface ImagePreviousValuesSubscription
   urls: () => Promise<AsyncIterator<String[]>>;
   indexingData: () => Promise<AsyncIterator<String>>;
   dateoData: () => Promise<AsyncIterator<String>>;
+  isDeleted: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface LinkSubscriptionPayload {
@@ -1898,6 +1928,7 @@ export interface UserPreviousValues {
   name: String;
   email: String;
   password: String;
+  isAdmin: Boolean;
 }
 
 export interface UserPreviousValuesPromise
@@ -1907,6 +1938,7 @@ export interface UserPreviousValuesPromise
   name: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
+  isAdmin: () => Promise<Boolean>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -1916,6 +1948,7 @@ export interface UserPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
+  isAdmin: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface VoteSubscriptionPayload {
@@ -2022,14 +2055,14 @@ DateTime scalar output type, which is always a string
 export type DateTimeOutput = string;
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
-*/
-export type Int = number;
-
-/*
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number;
 
 export type Long = string;
 

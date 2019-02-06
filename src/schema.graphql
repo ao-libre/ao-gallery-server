@@ -95,6 +95,7 @@ type User {
     email: String!
     links: [Link!]!
     images: [Image!]!
+    isAdmin: Boolean! @default(value: "false")
 }
 
 type Users {
@@ -122,6 +123,7 @@ type Image {
     urls: [String!]!
     indexingData: String
     dateoData: String
+    isDeleted: String!
 }
 
 type ImageList {
