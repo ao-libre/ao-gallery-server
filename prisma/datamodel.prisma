@@ -14,7 +14,7 @@ type User {
   password: String!
   links: [Link!]!
   votes: [Vote!]!
-  isAdmin: Boolean!
+  isAdmin: Boolean! @default(value: "false")
 }
 
 type Vote {

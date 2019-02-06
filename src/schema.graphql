@@ -95,7 +95,7 @@ type User {
     email: String!
     links: [Link!]!
     images: [Image!]!
-    isAdmin: Boolean! @default(value: "false")
+    isAdmin: Boolean!
 }
 
 type Users {
